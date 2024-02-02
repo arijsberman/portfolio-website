@@ -1,38 +1,3 @@
-// Get the fading background element
-const background = document.querySelector("#background");
-const hero = document.querySelector(".hero")
-const socials = document.querySelectorAll(".socials")
-const imgContainer = document.querySelector('.img-container');
-const txtContainer = document.querySelector('.txt-container');
-
-// Add a scroll event listener
-window.addEventListener("scroll", function() {
-
-    const scrollPercentage = (window.scrollY / window.innerHeight);
-    console.log(scrollPercentage)
-    // Calculate the opacity based on the scroll position
-    const opacity = Math.min(scrollPercentage, 1)
-    const opacityBackground = Math.max(opacity, 0.3)
-
-    let opacityHero;
-    if (opacity < 0.3) {
-        opacityHero = 0;
-    } else {
-        opacityHero = (opacity - 0.3) / 0.7;
-    }
-    
-    // Set the background color with opacity
-    background.style.backgroundImage = `linear-gradient(rgb(0,0,0,${opacityBackground}), rgb(0,0,0,${opacityBackground})), url(images/salar_uyuni.jpg)`;
-    hero.style.opacity = 1 - opacityHero;
-    socials.forEach(social => {
-        social.style.opacity = 1 - opacityHero;
-      });
-
-    imgContainer.style.transform = `translateX(${200 - 200 * Math.min(scrollPercentage, 1)}%)`;
-    txtContainer.style.transform = `translateY(${140 - 100 * scrollPercentage}%)`;
-
-});
-
 // Use fetch API to load the text file
 fetch('cv_text.txt')
 .then(response => response.text()) // Get the response and read it as text
@@ -44,3 +9,60 @@ fetch('cv_text.txt')
     // If there's an error (e.g., file not found), log it to the console
     console.error('Error loading the text:', error);
 });
+
+
+
+const imgContainer = document.querySelector('.img-container');
+const txtContainer = document.querySelector('.txt-container');
+const background = document.querySelector("#static-shield");
+
+let timeout1;
+let timeout2;
+let enableWheelEvent = true;
+
+const wheelFunc = function(event) {
+
+    if (!enableWheelEvent) return;
+    
+    var wheel = event.deltaY;
+
+    if (wheel > 0) {
+        imgContainer.style.transform = 'translateX(0%)';
+        txtContainer.style.transform = 'translateY(0%)';
+        background.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+        background.style.zIndex = '0';
+
+        timeout1 = setTimeout(function() {
+            txtContainer.classList.add('txtViewTwo');
+            txtContainer.classList.remove('txtViewOne')
+        }, 1000);
+        clearTimeout(timeout2)
+    }
+    else {
+        imgContainer.style.transform = 'translateX(200%)';
+        txtContainer.style.transform = 'translateY(100vh)';
+        background.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+        
+        timeout2 = setTimeout(function() {
+            txtContainer.classList.add('txtViewOne');
+            txtContainer.classList.remove('txtViewTwo')
+            background.style.zIndex = '-10';
+        }, 1000);
+        clearTimeout(timeout1)
+    }
+}
+
+const checkScroll = function() {
+    if (window.scrollY === 0) {
+        enableWheelEvent = true;
+    } else {
+        enableWheelEvent = false;
+    }
+}
+
+window.addEventListener('wheel', wheelFunc)
+
+window.addEventListener('scroll', checkScroll)
+
+
+
