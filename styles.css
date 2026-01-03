@@ -180,44 +180,100 @@ header {
     border-radius: 5%;
 }
 
-.txt-container {
-    width: 50%;
-    background-color: none;    
+/* TIMELINE */
 
-    display: flex;
-    flex-direction: column;
-    color: white;
-    align-items: center;
-
-    padding-bottom: 50px;
-}
-
-.txtViewOne {
-    position: fixed; 
+.timeline-container {
+    position: fixed;
     top: 0;
     right: 0;
+    width: 50%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     transform: translateY(100vh);
-    transition: 1s ease;
+    transition: transform 1s ease;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
-.txtViewTwo {
+.timeline-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.timeline-container.active {
+    transform: translateY(0);
+}
+
+.timeline {
     position: relative;
-    left: 50%;
+    width: 100%;
+    min-height: 200vh;
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
 }
 
-.txt-container h1 {
-    background-color: none;
-    font-size: 10vh;
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: white;
+    top: 0;
+}
 
-    margin-top: 35vh;
-    height: 30vh;
+.timeline-events {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 100px;
     display: flex;
     align-items: center;
-    
-    text-align: center;
+    min-height: 40px;
 }
 
-.txt-container p {
-    width: 60%;
-    text-align: justify;
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.timeline-year {
+    position: absolute;
+    left: calc(50% - 80px);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: right;
+    width: 60px;
+}
+
+.timeline-content {
+    position: absolute;
+    left: calc(50% + 40px);
+    color: white;
+    max-width: 45%;
+}
+
+.timeline-content h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #009688;
+}
+
+.timeline-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
 }

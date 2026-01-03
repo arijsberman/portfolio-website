@@ -1,19 +1,41 @@
-// Use fetch API to load the text file
-fetch('cv_text.txt')
-.then(response => response.text()) // Get the response and read it as text
-.then(text => {
-    // Find the element by ID and set its text content to the loaded text
-    document.getElementById('cv_text').innerText = text;
-})
-.catch(error => {
-    // If there's an error (e.g., file not found), log it to the console
-    console.error('Error loading the text:', error);
-});
+// Timeline data - add your events here
+const timelineData = [
+    { year: 2025, title: "Current", description: "Present day" },
+    { year: 2024, title: "Event Title", description: "Add your event description here" },
+    { year: 2023, title: "Another Event", description: "Add your event description here" },
+    { year: 2022, title: "Milestone", description: "Add your event description here" },
+    { year: 2021, title: "Achievement", description: "Add your event description here" },
+    { year: 2020, title: "Important Moment", description: "Add your event description here" },
+    { year: 2019, title: "Event", description: "Add your event description here" },
+    { year: 2018, title: "Another Event", description: "Add your event description here" },
+];
 
+// Generate timeline items
+function generateTimeline() {
+    const timelineEvents = document.getElementById('timeline-events');
+    
+    timelineData.forEach(item => {
+        const timelineItem = document.createElement('div');
+        timelineItem.className = 'timeline-item';
+        
+        timelineItem.innerHTML = `
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">${item.year}</div>
+            <div class="timeline-content">
+                <h3>${item.title}</h3>
+                <p>${item.description}</p>
+            </div>
+        `;
+        
+        timelineEvents.appendChild(timelineItem);
+    });
+}
 
+// Initialize timeline
+generateTimeline();
 
 const imgContainer = document.querySelector('.img-container');
-const txtContainer = document.querySelector('.txt-container');
+const timelineContainer = document.querySelector('.timeline-container');
 const background = document.querySelector("#static-shield");
 
 let timeout1;
@@ -38,23 +60,21 @@ const wheelFunc = function(event) {
 
     if (wheel > 0) {
         imgContainer.style.transform = 'translateX(0%)';
-        txtContainer.style.transform = 'translateY(0%)';
+        timelineContainer.style.transform = 'translateY(0%)';
         background.style.backgroundColor = 'rgba(0, 0, 0, 1)';
         background.style.zIndex = '0';
 
         clearTimeout(timeout2)
         timeout1 = setTimeout(function() {
-            txtContainer.classList.add('txtViewTwo');
-            txtContainer.classList.remove('txtViewOne')
+            timelineContainer.classList.add('active');
         }, 1000);
         
     }
     else {
         imgContainer.style.transform = 'translateX(200%)';
-        txtContainer.style.transform = 'translateY(100vh)';
+        timelineContainer.style.transform = 'translateY(100vh)';
         background.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-        txtContainer.classList.add('txtViewOne');
-        txtContainer.classList.remove('txtViewTwo');
+        timelineContainer.classList.remove('active');
 
         clearTimeout(timeout1)
         timeout2 = setTimeout(function() {
@@ -71,10 +91,10 @@ const checkScroll = function() {
         enableWheelEvent = false;
     }
 }
-
 window.addEventListener('wheel', wheelFunc)
 
 window.addEventListener('scroll', checkScroll)
+
 
 
 
